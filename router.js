@@ -56,11 +56,26 @@ router.post("/", async (req, res) => {
 });
 
 router.delete("/:id", async (req, res) => {
-  res.send(200);
+  const { id } = req.params;
+  try {
+    const zoo = await db("zoos")
+      .where({ id })
+      .first();
+    if (zoo) {
+      const deleted = await db("zoos")
+        .where({ id })
+        .del();
+      if (deleted) {
+        res.status(200).json(zoo);
+      }
+    }
+  } catch (error) {
+    res.status(404).json({ message: "Zoo with specified ID does not exist." });
+  }
 });
 
 router.put("/:id", async (req, res) => {
-  res.send(200);
+  const { id } = req.params;
 });
 
 module.exports = router;
