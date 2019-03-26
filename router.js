@@ -41,7 +41,18 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  res.send(200);
+  const zoo = req.body;
+  try {
+    const [id] = await db("zoos").insert(zoo);
+    if (id) {
+      const newZoo = await db("zoos")
+        .where({ id })
+        .first();
+      res.status(201).json(newZoo);
+    }
+  } catch (error) {
+    res.status(500).json({ message: `Your zoo could not be posted ${error}.` });
+  }
 });
 
 router.delete("/:id", async (req, res) => {
