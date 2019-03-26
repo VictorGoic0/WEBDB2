@@ -1,15 +1,34 @@
-const express = require("express");
+const router = require("express").Router();
+const knex = require("knex");
 
-const router = express.Router();
+const knexConfig = {
+  client: "sqlite3",
+  useNullAsDefault: true,
+  connection: {
+    filename: "./data/lambda.sqlite3"
+  }
+};
 
-router.get("path", (req, res) => {});
+const db = knex(knexConfig);
 
-router.get("path", (req, res) => {});
+router.get("/", async (req, res) => {
+  res.send(200);
+});
 
-router.post("path", (req, res) => {});
+router.get("/", async (req, res) => {
+  res.send(200);
+});
 
-router.delete("path", (req, res) => {});
+router.post("/", async (req, res) => {
+  res.send(200);
+});
 
-router.put("path", (req, res) => {});
+router.delete("/", async (req, res) => {
+  res.send(200);
+});
+
+router.put("/", async (req, res) => {
+  res.send(200);
+});
 
 module.export = router;
