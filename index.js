@@ -4,8 +4,9 @@ const zooRouter = require("./router.js");
 
 const server = express();
 
-server.use(express.json());
 server.use(helmet());
+server.use(express.json());
+
 server.use("/api/zoos", zooRouter);
 
 const port = 3300;

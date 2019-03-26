@@ -12,23 +12,44 @@ const knexConfig = {
 const db = knex(knexConfig);
 
 router.get("/", async (req, res) => {
-  res.send(200);
+  try {
+    const zoos = await db("zoos");
+    if (zoos) {
+      res.status(200).json(zoos);
+    }
+  } catch (error) {
+    res.status(500).json({ message: `Zoos could not be found ${error}.` });
+  }
 });
 
-router.get("/", async (req, res) => {
-  res.send(200);
+router.get("/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const zoo = await db("zoos")
+      .where({ id })
+      .first();
+    if (zoo) {
+      res.status(200).json(zoo);
+    } else {
+      res
+        .status(404)
+        .json({ message: "Zoo with specified ID does not exist." });
+    }
+  } catch (error) {
+    res.status(500).json({ message: `Zoo request failed ${error}.` });
+  }
 });
 
 router.post("/", async (req, res) => {
   res.send(200);
 });
 
-router.delete("/", async (req, res) => {
+router.delete("/:id", async (req, res) => {
   res.send(200);
 });
 
-router.put("/", async (req, res) => {
+router.put("/:id", async (req, res) => {
   res.send(200);
 });
 
-module.export = router;
+module.exports = router;
