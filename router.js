@@ -74,9 +74,15 @@ router.delete("/:id", async (req, res) => {
       if (deleted) {
         res.status(200).json(zoo);
       }
+    } else {
+      res
+        .status(404)
+        .json({ message: "The zoo with the specified ID does not exist." });
     }
   } catch (error) {
-    res.status(404).json({ message: "Zoo with specified ID does not exist." });
+    res.status(500).json({
+      message: `The zoo's information could not be modified: ${error}.`
+    });
   }
 });
 
@@ -96,11 +102,15 @@ router.put("/:id", async (req, res) => {
           .where({ id })
           .first();
         res.status(200).json(zoo);
+      } else {
+        res
+          .status(404)
+          .json({ message: "The zoo with the specified ID does not exist." });
       }
     } catch (error) {
-      res
-        .status(404)
-        .json({ message: "Zoo with specified ID does not exist." });
+      res.status(500).json({
+        message: `The zoo's information could not be modified: ${error}.`
+      });
     }
   }
 });
