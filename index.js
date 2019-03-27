@@ -1,12 +1,15 @@
-const express = require('express');
-const helmet = require('helmet');
+const express = require("express");
+const helmet = require("helmet");
+const zooRouter = require("./zooRouter.js");
+const bearRouter = require("./bearRouter.js");
 
 const server = express();
 
-server.use(express.json());
 server.use(helmet());
+server.use(express.json());
 
-// endpoints here
+server.use("/api/zoos", zooRouter);
+server.use("/api/bears", bearRouter);
 
 const port = 3300;
 server.listen(port, function() {
